@@ -1,32 +1,25 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
-  </div>
+  <v-app>
+    <router-view></router-view>
+
+    <!-- FOOTER -->
+    <v-footer fixed paddless color="#212121" class="pt-3">
+      <p
+        class="text-left ml-5"
+        style="color:#8e8e8e"
+      >Contáctanos. | Mi Movistar | Términos y Condiciones | Movistar Play | Movistar | Política Protección de Datos | Centro de Ayuda | Mapa del sitio</p>
+      <v-spacer></v-spacer>
+
+      <p class="text-right mr-5" style="color:#8e8e8e">© Movistar Play</p>
+    </v-footer>
+    <!-- FOOTER -->
+  </v-app>
 </template>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-
-#nav {
-  padding: 30px;
-}
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
-</style>
+<script>
+export default {
+  data: () => ({
+    //
+  })
+};
+</script>
