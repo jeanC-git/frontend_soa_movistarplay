@@ -24,13 +24,21 @@
       <v-spacer></v-spacer>
       <v-row>
         <v-col cols="12" sm="12" md="4">
-          <v-btn> <v-icon>mdi-account</v-icon> Mis contenidos</v-btn>
+          <router-link to="/mis-contenidos">
+            <v-btn>
+              <v-icon>mdi-account</v-icon>Mis contenidos
+            </v-btn>
+          </router-link>
         </v-col>
         <v-col cols="12" sm="12" md="4">
-          <v-btn> <v-icon> mdi-nut</v-icon> Mi cuenta</v-btn>
+          <v-btn>
+            <v-icon>mdi-nut</v-icon>Mi cuenta
+          </v-btn>
         </v-col>
         <v-col cols="12" sm="12" md="4">
-          <v-btn @click="extended=!extended"><v-icon> mdi-menu</v-icon> Menú</v-btn>
+          <v-btn @click="extended=!extended">
+            <v-icon>mdi-menu</v-icon>Menú
+          </v-btn>
         </v-col>
       </v-row>
       <v-btn
@@ -42,14 +50,14 @@
       >Iniciar sesión</v-btn>
       <template v-slot:extension v-if="extended">
         <v-row color="dark" dark style="display:flex;justify-content:center" class="mb-16">
-          <v-col col=12 sm="6" md="4">
+          <v-col col="12" sm="6" md="4">
             <v-select
               hide-details
               :items="['Comedia', 'Terror', 'Drama', 'Romántico']"
               label="Categoría"
             ></v-select>
           </v-col>
-          <v-col col=12 sm="6" md="4" class="mb-2">
+          <v-col col="12" sm="6" md="4" class="mb-2">
             <v-text-field
               clearable
               hide-details
@@ -69,7 +77,10 @@
             </v-btn>
           </div>
           <v-card-title style="text-align: center; display:flex; justify-content:center">
-            <span class="headline" style="text-align: center; color: #e3e6e7 !important">¡Bienvenido!</span>
+            <span
+              class="headline"
+              style="text-align: center; color: #e3e6e7 !important"
+            >¡Bienvenido!</span>
           </v-card-title>
           <v-card-text>
             <v-form ref="loginForm" @submit.prevent="login()">
@@ -120,7 +131,7 @@
 export default {
   name: "App",
   data: () => ({
-    extended:false,
+    extended: false,
     dialog: false,
     login_form: {
       email: "admin@admin.com",
