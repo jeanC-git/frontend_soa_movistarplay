@@ -169,6 +169,34 @@ export default {
     },
   }),
   methods: {
+    swal(title, type, timer, position, showClass, hideClass) {
+      let vue = this;
+
+      const Toast = vue.$swal.mixin({
+        toast: true,
+        position: position,
+        showConfirmButton: false,
+        timer: timer,
+        timerProgressBar: true,
+        showClass: {
+          popup: showClass,
+        },
+        hideClass: {
+          popup: hideClass,
+        },
+        onOpen: (toast) => {
+          toast.addEventListener("mouseenter", vue.$swal.stopTimer);
+          toast.addEventListener("mouseleave", vue.$swal.resumeTimer);
+        },
+      });
+      Toast.fire({
+        icon: type,
+        title:
+          "<p class='font-sacramento' style='font-family: Arial, sans-serif'>" +
+          title +
+          "</p>",
+      });
+    },
     login() {
       let vue = this;
       let validar = vue.$refs.loginForm.validate();
@@ -181,11 +209,28 @@ export default {
           .then(
             (response) => {
               vue.dialog = false;
+              vue.swal(
+                `Bienvenido  ${vue.currentUser.user[0].nombre}`,
+                "success",
+                2500,
+                "top",
+                "animate__animated animate__fadeInDown",
+                "animate__animated animate__fadeOut"
+              );
               if (this.$route.name !== "Inicio") {
                 this.$router.push("/");
               }
             },
-            (error) => {}
+            (error) => {
+              vue.swal(
+                "Usuario y/o contraseña incorrecta.",
+                "warning",
+                2500,
+                "top",
+                "animate__animated animate__fadeInDown",
+                "animate__animated animate__fadeOut"
+              );
+            }
           );
       }
     },
@@ -207,14 +252,13 @@ export default {
   },
   created() {
     let vue = this;
-
-    if (vue.loggedIn) {
-      // console.log(
-      //   "hay un token",
-      //   JSON.parse(localStorage.getItem("token")),
-      //   JSON.parse(localStorage.getItem("user"))
-      // );
-    }
+    // if (!vue.loggedIn) {
+    // console.log(
+    //   "hay un token",
+    //   JSON.parse(localStorage.getItem("token")),
+    //   JSON.parse(localStorage.getItem("user"))
+    // );
+    // }
   },
   computed: {
     loggedIn() {
