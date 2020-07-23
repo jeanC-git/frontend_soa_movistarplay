@@ -1,6 +1,9 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
+// COMPONENTES
+import notFound404 from '../views/NotFound404.vue';
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -31,6 +34,12 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "about" */ '../views/Admin.vue')
+  },
+  { path: '/404', component: notFound404 },
+  {
+    // matches everything else  
+    path: '*',
+    redirect: '/404'
   }
 ]
 
@@ -38,6 +47,20 @@ const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes
-})
+});
+
+router.beforeEach((to, from, next) => {
+  const publicPages = ['/', '/registro', '/404'];
+  const authRequired = !publicPages.includes(to.path);
+  const loggedIn = localStorage.getItem('user');
+
+  // Si tratas de entrar a una pagina no publica y no estás logeado
+  // Redirige a la página de inicio
+  if (authRequired && !loggedIn) {
+    next('/');
+  } else {
+    next();
+  }
+});
 
 export default router
