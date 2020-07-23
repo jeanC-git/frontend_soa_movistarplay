@@ -9,6 +9,7 @@
           src="images/movistar-logo.png"
           transition="scale-transition"
           width="70"
+          @click="irInicio()"
         />
         <v-img
           alt="Movistar Play"
@@ -17,12 +18,13 @@
           min-width="100"
           src="images/movistar-text.png"
           width="50"
+          @click="irInicio()"
         />
       </div>
       <v-spacer></v-spacer>
       <v-spacer></v-spacer>
       <v-spacer></v-spacer>
-      <v-row>
+      <v-row v-if="this.$route.name !== 'Registro'">
         <v-col cols="12" sm="12" md="4">
           <router-link to="/mis-contenidos">
             <v-btn>
@@ -55,7 +57,7 @@
           <span>
             <v-btn color="#43aafb" class="mx-2" outlined v-bind="attrs" v-on="on">
               <v-icon class="mx-1">mdi-account</v-icon>
-              {{ currentUser.correo }}
+              {{ currentUser.user[0].correo }}
             </v-btn>
           </span>
         </template>
@@ -179,6 +181,9 @@ export default {
           .then(
             (response) => {
               vue.dialog = false;
+              if (this.$route.name !== "Inicio") {
+                this.$router.push("/");
+              }
             },
             (error) => {}
           );
@@ -194,16 +199,21 @@ export default {
         this.$router.push("/");
       }
     },
+    irInicio() {
+      if (this.$route.name !== "Inicio") {
+        this.$router.push("/");
+      }
+    },
   },
   created() {
     let vue = this;
 
     if (vue.loggedIn) {
-      console.log(
-        "hay un token",
-        JSON.parse(localStorage.getItem("token")),
-        JSON.parse(localStorage.getItem("user"))
-      );
+      // console.log(
+      //   "hay un token",
+      //   JSON.parse(localStorage.getItem("token")),
+      //   JSON.parse(localStorage.getItem("user"))
+      // );
     }
   },
   computed: {
