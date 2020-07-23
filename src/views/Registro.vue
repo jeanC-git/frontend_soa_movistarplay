@@ -383,38 +383,38 @@ export default {
   data() {
     return {
       reglas: {
-        departamento: [v => !!v || "Campo requerido"],
-        tyc: [v => !!v || "Es necesario aceptar los Términos y condiciones"],
-        documento: [v => !!v || "Campo requerido"],
+        departamento: [(v) => !!v || "Campo requerido"],
+        tyc: [(v) => !!v || "Es necesario aceptar los Términos y condiciones"],
+        documento: [(v) => !!v || "Campo requerido"],
         nrodocumento: [
-          v => !!v || "Campo requerido",
-          v => /^[0-9]+$/i.test(v) || "No se permiten letras"
+          (v) => !!v || "Campo requerido",
+          (v) => /^[0-9]+$/i.test(v) || "No se permiten letras",
         ],
         telefono: [
-          v => !!v || "Campo requerido",
-          v => /^[0-9]+$/i.test(v) || "No se permiten letras",
-          v => (v && v.length == 9) || "El número deber ser de 9 caracteres"
+          (v) => !!v || "Campo requerido",
+          (v) => /^[0-9]+$/i.test(v) || "No se permiten letras",
+          (v) => (v && v.length == 9) || "El número deber ser de 9 caracteres",
         ],
         email: [
-          v => !!v || "Campo requerido",
-          v => /.+@.+\..+/.test(v) || "Ingrese un correo electrónico válido"
+          (v) => !!v || "Campo requerido",
+          (v) => /.+@.+\..+/.test(v) || "Ingrese un correo electrónico válido",
         ],
         numeroCuenta: [
-          v => !!v || "Campo requerido",
-          v => /^[0-9]+$/i.test(v) || "No se permiten letras"
+          (v) => !!v || "Campo requerido",
+          (v) => /^[0-9]+$/i.test(v) || "No se permiten letras",
         ],
         password: [
-          v => !!v || "Campo requerido",
-          v =>
+          (v) => !!v || "Campo requerido",
+          (v) =>
             (v && v.length >= 5) ||
-            "La contraseña debe ser mayor a 5 caracteres"
+            "La contraseña debe ser mayor a 5 caracteres",
         ],
         confirmarpassword: [
-          v => !!v || "Campo requerido",
-          v =>
+          (v) => !!v || "Campo requerido",
+          (v) =>
             (v && v == this.formRegistro.confirmarpassword) ||
-            "Las contraseñas no coinciden"
-        ]
+            "Las contraseñas no coinciden",
+        ],
       },
       mostrarPassword: false,
       radioGroup: null, // 1: trio, 2: solo tv, 3: movil
@@ -427,26 +427,26 @@ export default {
         telefono: "",
         documento: "",
         nrodocumento: "",
-        error: false
+        error: false,
       },
       step2tv: {
         title: false,
         numeroCuenta: "",
         documento: "",
-        nrodocumento: ""
+        nrodocumento: "",
       },
       step2movil: {
         title: false,
-        telefono: ""
+        telefono: "",
       },
       formRegistro: {
         id_cuenta: "",
         email: "",
         password: "",
         confirmarpassword: "",
-        TyC: false
+        TyC: false,
       },
-      step3: false
+      step3: false,
     };
   },
   methods: {
@@ -460,22 +460,22 @@ export default {
         timer: timer,
         timerProgressBar: true,
         showClass: {
-          popup: showClass
+          popup: showClass,
         },
         hideClass: {
-          popup: hideClass
+          popup: hideClass,
         },
-        onOpen: toast => {
+        onOpen: (toast) => {
           toast.addEventListener("mouseenter", vue.$swal.stopTimer);
           toast.addEventListener("mouseleave", vue.$swal.resumeTimer);
-        }
+        },
       });
       Toast.fire({
         icon: type,
         title:
           "<p class='font-sacramento' style='font-family: Arial, sans-serif'>" +
           title +
-          "</p>"
+          "</p>",
       });
     },
 
@@ -522,32 +522,32 @@ export default {
               id_perfil: vue.radioGroup,
               ciudad: vue.step2trio.departamento,
               numero_dni: vue.step2trio.nrodocumento,
-              numero_telefono: vue.step2trio.telefono
+              numero_telefono: vue.step2trio.telefono,
             };
             break;
           case "2":
             var data = {
               id_perfil: vue.radioGroup,
               numero_cuenta: vue.step2tv.numeroCuenta,
-              numero_dni: vue.step2tv.nrodocumento
+              numero_dni: vue.step2tv.nrodocumento,
             };
             break;
           case "3":
             var data = {
               id_perfil: vue.radioGroup,
-              numero_telefono: vue.step2movil.telefono
+              numero_telefono: vue.step2movil.telefono,
             };
             break;
         }
         var config = {
           method: "post",
-          url: "http://localhost:49220/api/autenticar",
-          data: data
+          url: "http://localhost:49220/api/afiliacion/verificarcliente",
+          data: data,
         };
 
         vue
           .axios(config)
-          .then(response => {
+          .then((response) => {
             vue.swal(
               "Usuario verificado.",
               "success",
@@ -564,7 +564,7 @@ export default {
             vue.step2 = false;
             vue.step3 = true;
           })
-          .catch(error => {
+          .catch((error) => {
             if (error.response) {
               vue.swal(
                 "Los datos ingresados no pertenecen a ningún usuario de Movistar, verifíquelos por favor.",
@@ -608,15 +608,15 @@ export default {
           return;
         }
         vue.axios
-          .post("http://localhost:49220/api/registrarcliente", {
+          .post("http://localhost:49220/api/afiliacion/registrarcliente", {
             persona: {
               id_cuenta: vue.formRegistro.id_cuenta,
               correo: vue.formRegistro.email,
-              clave: vue.formRegistro.password
+              clave: vue.formRegistro.password,
             },
-            id_perfil: vue.radioGroup
+            id_perfil: vue.radioGroup,
           })
-          .then(response => {
+          .then((response) => {
             vue.swal(
               "Registro exitoso.",
               "warning",
@@ -629,12 +629,12 @@ export default {
               vue.$router.push("/").catch(() => {});
             }, 2000);
           })
-          .catch(error => {
+          .catch((error) => {
             console.log(error);
           });
       }
-    }
-  }
+    },
+  },
 };
 </script>
 <style >
