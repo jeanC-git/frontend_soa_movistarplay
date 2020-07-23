@@ -31,9 +31,11 @@
           </router-link>
         </v-col>
         <v-col cols="12" sm="12" md="4">
-          <v-btn>
-            <v-icon>mdi-nut</v-icon>Mi cuenta
-          </v-btn>
+          <router-link to="/mis-cuenta">
+            <v-btn>
+              <v-icon>mdi-nut</v-icon>Mi cuenta
+            </v-btn>
+          </router-link>
         </v-col>
         <v-col cols="12" sm="12" md="4">
           <v-btn @click="extended=!extended">
