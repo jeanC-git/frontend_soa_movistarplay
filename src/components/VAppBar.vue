@@ -46,8 +46,30 @@
         outlined
         color="#43aafb"
         @click="openLoginModal()"
-        v-if="this.$route.name == 'Inicio'"
+        v-if="!loggedIn"
       >Iniciar sesión</v-btn>
+      <v-menu offset-y v-if="currentUser">
+        <template v-slot:activator="{ on, attrs }">
+          <span>
+            <v-btn color="#43aafb" class="mx-2" outlined v-bind="attrs" v-on="on">
+              <v-icon class="mx-1">mdi-account</v-icon>
+              {{ currentUser.correo }}
+            </v-btn>
+          </span>
+        </template>
+        <v-list dense>
+          <v-list-item-group color="#43aafb">
+            <v-list-item @click="logout()">
+              <v-list-item-icon>
+                <v-icon v-text="'mdi-logout'"></v-icon>
+              </v-list-item-icon>
+              <v-list-item-content>
+                <v-list-item-title v-text="'Cerrar sesión'"></v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+          </v-list-item-group>
+        </v-list>
+      </v-menu>
       <template v-slot:extension v-if="extended">
         <v-row color="dark" dark style="display:flex;justify-content:center" class="mb-16">
           <v-col col="12" sm="6" md="4">
@@ -135,12 +157,12 @@ export default {
     dialog: false,
     login_form: {
       email: "admin@admin.com",
-      password: "12345678"
+      password: "12345678",
     },
     reglas: {
-      email: [v => !!v || "Campo requerido"],
-      password: [v => !!v || "Campo requerido"]
-    }
+      email: [(v) => !!v || "Campo requerido"],
+      password: [(v) => !!v || "Campo requerido"],
+    },
   }),
   methods: {
     login() {
@@ -150,18 +172,26 @@ export default {
         vue.$store
           .dispatch("auth/login", {
             correo: vue.login_form.email,
-            clave: vue.login_form.password
+            clave: vue.login_form.password,
           })
           .then(
-            response => {},
-            error => {}
+            (response) => {
+              vue.dialog = false;
+            },
+            (error) => {}
           );
       }
     },
     openLoginModal() {
       let vue = this;
       vue.dialog = true;
-    }
+    },
+    logout() {
+      this.$store.dispatch("auth/logout");
+      if (this.$route.name !== "Inicio") {
+        this.$router.push("/");
+      }
+    },
   },
   created() {
     let vue = this;
@@ -169,17 +199,20 @@ export default {
     if (vue.loggedIn) {
       console.log(
         "hay un token",
-        JSON.parse(localStorage.getItem("token")).data
+        JSON.parse(localStorage.getItem("token")),
+        JSON.parse(localStorage.getItem("user"))
       );
     }
   },
   computed: {
     loggedIn() {
       let vue = this;
-
       return vue.$store.state.auth.status.loggedIn;
-    }
-  }
+    },
+    currentUser() {
+      return this.$store.state.auth.user;
+    },
+  },
 };
 </script>
 <style>

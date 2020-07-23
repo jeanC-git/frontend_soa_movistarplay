@@ -10,14 +10,16 @@ class AuthServicio {
                 clave: user.clave
             })
             .then(response => {
-                if (response.data.data) {
-                    localStorage.setItem('token', JSON.stringify(response.data));
+                if (response.data) {
+                    localStorage.setItem('token', JSON.stringify(response.data.token));
+                    localStorage.setItem('user', JSON.stringify(response.data.user));
                 }
                 return response.data;
             });
     }
 
     logout() {
+        localStorage.removeItem('token');
         localStorage.removeItem('user');
     }
 
