@@ -41,7 +41,7 @@
         v-if="this.$route.name == 'Inicio'"
       >Iniciar sesión</v-btn>
       <template v-slot:extension v-if="extended">
-        <v-row color="dark" dark style="display:flex">
+        <v-row color="dark" dark style="display:flex;justify-content:center" class="mb-16">
           <v-col col=12 sm="6" md="4">
             <v-select
               hide-details
@@ -49,15 +49,13 @@
               label="Categoría"
             ></v-select>
           </v-col>
-          <v-col col=12 sm="6" md="4">
+          <v-col col=12 sm="6" md="4" class="mb-2">
             <v-text-field
-              solo-inverted
               clearable
               hide-details
               prepend-inner-icon="mdi-magnify"
               label="Buscar en MovistarPlay"
               color="#43aafb"
-              class="ml-3 mr-3"
             ></v-text-field>
           </v-col>
         </v-row>
@@ -116,7 +114,6 @@
       </v-dialog>
       <!-- MODAL INICIO DE SESION -->
     </v-app-bar>
-    
   </div>
 </template>
 <script>
