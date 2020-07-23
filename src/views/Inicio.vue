@@ -214,7 +214,6 @@
       </v-col>
     </v-row>
     <!-- MAS VISTOS -->
-
     <!-- ===========================================  -->
     <CarouselContenido v-for="contenido in tipo_contenido" :key="contenido.id" :data="contenido" />
   </div>
