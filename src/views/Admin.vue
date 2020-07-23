@@ -1,6 +1,6 @@
 <template>
   <div style="background:#272727">
-    <!-- ============== CONTENT ============= -->
+    <!-- ============== APPBAR ============== -->
     <v-app-bar app color="dark" dark>
       <div class="d-flex align-center">
         <v-img
@@ -26,6 +26,9 @@
         <v-btn color="#00A9E0">INICIO</v-btn>
       </router-link>
     </v-app-bar>
+    <!-- ============== /APPBAR ============== -->
+
+    <!-- ============== CONTENT ============= -->
     <v-main style="height:100vh">
       <!-- FORM LOGIN ADMIN -->
       <v-container v-show="false" class="fill-height" fluid>

@@ -1,9 +1,10 @@
 <template>
   <v-app>
+    <AppBar></AppBar>
     <router-view></router-view>
 
     <!-- FOOTER -->
-    <v-footer fixed paddless color="#212121" class="pt-3">
+    <!-- <v-footer fixed paddless color="#212121" class="pt-3">
       <p
         class="text-left ml-5"
         style="color:#8e8e8e"
@@ -11,13 +12,18 @@
       <v-spacer></v-spacer>
 
       <p class="text-right mr-5" style="color:#8e8e8e">© Movistar Play</p>
-    </v-footer>
+    </v-footer>-->
     <!-- FOOTER -->
   </v-app>
 </template>
 
 <script>
+import AppBar from "./components/VAppBar";
+
 export default {
+  components: {
+    AppBar
+  },
   data: () => ({
     //
   })

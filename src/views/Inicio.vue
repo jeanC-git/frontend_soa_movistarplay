@@ -1,6 +1,5 @@
 <template>
   <div style="background:black;">
-    <AppBar></AppBar>
     <!-- MAS VISTOS -->
     <v-row class="mt-16">
       <v-col
