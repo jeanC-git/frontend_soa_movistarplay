@@ -328,8 +328,6 @@
                 </v-list>
               </v-col>
             </v-row>
-            <br />
-            <br />
           </v-card-text>
         </v-form>
       </v-card>

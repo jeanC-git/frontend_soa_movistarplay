@@ -1,6 +1,5 @@
 <template>
   <div style="background:black;">
-    <AppBar></AppBar>
     <!-- MAS VISTOS -->
     <v-row class="mt-16">
       <v-col
@@ -214,7 +213,6 @@
       </v-col>
     </v-row>
     <!-- MAS VISTOS -->
-
     <!-- ===========================================  -->
     <CarouselContenido v-for="contenido in tipo_contenido" :key="contenido.id" :data="contenido" />
   </div>
