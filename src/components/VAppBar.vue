@@ -31,7 +31,7 @@
           </router-link>
         </v-col>
         <v-col cols="12" sm="12" md="4">
-          <router-link to="/mis-cuenta">
+          <router-link to="/mi-cuenta">
             <v-btn>
               <v-icon>mdi-nut</v-icon>Mi cuenta
             </v-btn>

@@ -28,7 +28,7 @@
 </template> 
 <script>
 export default {
-     props: ["tipo_consumo"],
+    props: ["tipo_consumo"],
     data() {
         return {
         headers_vistos: [

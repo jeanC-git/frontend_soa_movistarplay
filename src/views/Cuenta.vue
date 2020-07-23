@@ -1,27 +1,47 @@
-<template style="background:#262626;height:100%">
-  <div class="mt-16 pt-16" style="background:#262626;height:100%">
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
-    <hr />cuenta
+<template >
+  <div style="background:#D8DCDD;height:100%;width:100%">
+    <v-container class="mt-16 " style="background:#D8DCDD;height:100%">
+      <v-row>
+        <v-col cols="12" md="12" class="text-center">
+          <span>Mi cuenta</span>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-tabs
+            v-model="tab"
+            background-color="#262626"
+            class="elevation-2"
+            dark
+            :centered="centered"
+            :right="right"
+            :grow="grow"
+            :vertical="vertical"
+            :prev-icon="prevIcon ? 'mdi-arrow-left-bold-box-outline' : undefined"
+            :next-icon="nextIcon ? 'mdi-arrow-right-bold-box-outline' : undefined"
+            :icons-and-text="icons"
+          >
+          <v-tabs-slider></v-tabs-slider>
+          <v-tab
+            v-for="tipo_cuenta in array_tipo_cuenta"
+            :key="tipo_cuenta.tipo"
+            :href="`#tab-${tipo_cuenta.tipo}`"
+            v-text="tipo_cuenta.nombre"
+          ></v-tab>
+          <v-tab-item v-for="tipo_cuenta in array_tipo_cuenta" :key="tipo_cuenta.tipo" :value="'tab-' + tipo_cuenta.tipo">
+            <v-card flat tile>
+              <tabscuenta :tipo_cuenta="tipo_cuenta.tipo"></tabscuenta>
+            </v-card>
+          </v-tab-item>
+        </v-tabs>
+      </v-row>
+    </v-container>
   </div>
 </template>
 <script>
-import tablasConsumo from "./Tablas_consumo.vue";
+import tabscuenta from "../components/Tabs_cuenta.vue";
 export default {
-  components: {
-    tablasConsumo,
+  components:{
+    tabscuenta
   },
   data() {
     return {
@@ -34,10 +54,9 @@ export default {
       nextIcon: false,
       right: false,
       tabs: 3,
-      array_tipo_consumo: [
-        { nombre: "Vistos", tipo: 1 },
-        { nombre: "Mi lista", tipo: 2 },
-        { nombre: "Mis alquileres", tipo: 3 },
+      array_tipo_cuenta: [
+        { nombre: "Control parental", tipo: 1 },
+        { nombre: "Notificaciones", tipo: 2 },
       ],
     };
   },
