@@ -220,13 +220,11 @@
 
 
 <script>
-import AppBar from "../components/VAppBar.vue";
 import CarouselContenido from "../components/CarouselContenido.vue";
 
 export default {
   components: {
-    AppBar,
-    CarouselContenido
+    CarouselContenido,
   },
   name: "Home",
   data() {
@@ -234,16 +232,28 @@ export default {
       model: null,
       tipo_contenido: [
         {
-          id: 1
+          id: 1,
         },
         {
-          id: 2
+          id: 2,
         },
         {
-          id: 3
-        }
-      ]
+          id: 3,
+        },
+      ],
     };
-  }
+  },
+  computed: {
+    currentUser() {
+      return this.$store.state.auth.user;
+    },
+  },
+  mounted() {
+    if (!this.currentUser) {
+      if (this.$route.name !== "Inicio") {
+        this.$router.push("/");
+      }
+    }
+  },
 };
 </script>

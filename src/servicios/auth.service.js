@@ -11,6 +11,8 @@ class AuthServicio {
             })
             .then(response => {
                 if (response.data) {
+                    // console.log('respoonse.token', response.data.token);
+                    // console.log('respoonse.user', response.data.user);
                     localStorage.setItem('token', JSON.stringify(response.data.token));
                     localStorage.setItem('user', JSON.stringify(response.data.user));
                 }
