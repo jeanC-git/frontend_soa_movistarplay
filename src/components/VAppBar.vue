@@ -57,7 +57,7 @@
           <span>
             <v-btn color="#43aafb" class="mx-2" outlined v-bind="attrs" v-on="on">
               <v-icon class="mx-1">mdi-account</v-icon>
-              {{ currentUser.user[0].correo }}
+              {{ currentUser.correo }}
             </v-btn>
           </span>
         </template>
@@ -160,7 +160,7 @@ export default {
     extended: false,
     dialog: false,
     login_form: {
-      email: "admin@admin.com",
+      email: "joel@joel.com",
       password: "12345678",
     },
     reglas: {
@@ -210,7 +210,7 @@ export default {
             (response) => {
               vue.dialog = false;
               vue.swal(
-                `Bienvenido  ${vue.currentUser.user[0].nombre}`,
+                `Bienvenido  ${vue.currentUser.nombre}`,
                 "success",
                 2500,
                 "top",
@@ -223,7 +223,7 @@ export default {
             },
             (error) => {
               vue.swal(
-                "Usuario y/o contraseña incorrecta.",
+                error,
                 "warning",
                 2500,
                 "top",
@@ -252,18 +252,10 @@ export default {
   },
   created() {
     let vue = this;
-    // if (!vue.loggedIn) {
-    // console.log(
-    //   "hay un token",
-    //   JSON.parse(localStorage.getItem("token")),
-    //   JSON.parse(localStorage.getItem("user"))
-    // );
-    // }
   },
   computed: {
     loggedIn() {
-      let vue = this;
-      return vue.$store.state.auth.status.loggedIn;
+      return this.$store.state.auth.status.loggedIn;
     },
     currentUser() {
       return this.$store.state.auth.user;
