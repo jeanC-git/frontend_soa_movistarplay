@@ -3,11 +3,11 @@
     <v-container class="mt-16 " style="background:#D8DCDD;height:100%">
       <v-row>
         <v-col cols="12" md="12" class="text-center">
-          <span>Mi cuenta</span>
+          <p class="font-weight-medium">Mi cuenta</p>
         </v-col>
       </v-row>
       <v-row>
-        <v-tabs
+        <v-tabs 
             v-model="tab"
             background-color="#262626"
             class="elevation-2"
@@ -57,6 +57,7 @@ export default {
       array_tipo_cuenta: [
         { nombre: "Control parental", tipo: 1 },
         { nombre: "Notificaciones", tipo: 2 },
+        { nombre: "Pagos", tipo: 3 },
       ],
     };
   },
