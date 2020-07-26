@@ -52,7 +52,7 @@
                   <v-radio style="position:absolute;left:95%" value="2"></v-radio>
                 </v-col>
               </v-row>
-              <hr />
+              <hr/>
               <v-row class="mt-2 mb-2">
                 <v-col cols="12" sm="11" md="11" lg="11" style="display:flex;align-items: center;">
                   <v-icon>mdi-cellphone</v-icon>
