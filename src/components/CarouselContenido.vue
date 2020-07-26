@@ -24,7 +24,7 @@
           >
             <v-slide-item
               v-for="contenido in data"
-              :key="contenido.id"
+              :key="contenido.id_canal"
               v-slot:default="{ active, toggle }"
             >
               <v-card height="140" width="250" class="margin-0-padding-0" @click="toggle">
@@ -57,7 +57,7 @@ export default {
   },
   methods: {},
   created() {
-    console.log(this.data);
+    // console.log(this.data);
   },
 };
 </script>
