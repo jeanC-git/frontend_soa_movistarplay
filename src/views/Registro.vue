@@ -6,7 +6,7 @@
           src="images/registro_imagen.jpg"
           class="margin-0-padding-0"
           style="width: 100%;
-          height: calc(100vh - 67px);"
+          height: calc(100vh - 0px);"
         ></v-img>
       </v-col>
       <v-col
@@ -37,30 +37,24 @@
                   <p style="color:red">Seleccione un plan</p>
                 </v-col>
               </v-row>
-              <v-row class="mt-2 mb-2">
-                <v-col cols="12" sm="11" md="11" lg="11" style="display:flex;align-items: center;">
-                  <v-icon>mdi-phone</v-icon>
-                  <p v-text="'Total/Duo/Trío'" style="margin:0 10px;padding:0"></p>
-                  <v-radio style="position:absolute;left:95%" value="1"></v-radio>
-                </v-col>
-              </v-row>
-              <hr />
-              <v-row class="mt-2 mb-2">
-                <v-col cols="12" sm="11" md="11" lg="11" style="display:flex;align-items: center;">
-                  <v-icon>mdi-television</v-icon>
-                  <p v-text="'Solo TV'" style="margin:0 10px;padding:0"></p>
-                  <v-radio style="position:absolute;left:95%" value="2"></v-radio>
-                </v-col>
-              </v-row>
-              <hr />
-              <v-row class="mt-2 mb-2">
-                <v-col cols="12" sm="11" md="11" lg="11" style="display:flex;align-items: center;">
-                  <v-icon>mdi-cellphone</v-icon>
-                  <p v-text="'Móvil'" style="margin:0 10px;padding:0"></p>
-                  <v-radio style="position:absolute;left:95%" value="3"></v-radio>
-                </v-col>
-              </v-row>
-              <hr />
+              <div v-for="perfil in arrayPerfiles" :key="perfil.id">
+                <v-row class="mt-2 mb-2">
+                  <v-col
+                    cols="12"
+                    sm="11"
+                    md="11"
+                    lg="11"
+                    style="display:flex;align-items: center;"
+                  >
+                    <v-icon v-if="perfil.id == 1">mdi-phone</v-icon>
+                    <v-icon v-if="perfil.id == 2">mdi-television</v-icon>
+                    <v-icon v-if="perfil.id == 3">mdi-cellphone</v-icon>
+                    <p v-text="perfil.tipo" style="margin:0 10px;padding:0"></p>
+                    <v-radio style="position:absolute;left:95%" :value="perfil.id"></v-radio>
+                  </v-col>
+                </v-row>
+                <hr />
+              </div>
 
               <v-row class="mb-2">
                 <v-col cols="12">
@@ -447,7 +441,11 @@ export default {
         TyC: false,
       },
       step3: false,
+      arrayPerfiles: [],
     };
+  },
+  created() {
+    this.listarPerfiles();
   },
   methods: {
     swal(title, type, timer, position, showClass, hideClass) {
@@ -633,6 +631,14 @@ export default {
             console.log(error);
           });
       }
+    },
+    listarPerfiles() {
+      let vue = this;
+      vue.axios
+        .get("http://localhost:49220/api/afiliacion/listarperfil")
+        .then((response) => {
+          vue.arrayPerfiles = response.data;
+        });
     },
   },
 };
