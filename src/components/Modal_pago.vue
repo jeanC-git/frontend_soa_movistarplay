@@ -1,6 +1,6 @@
 <template>
     <div>
-        <v-dialog v-model="dialog_pago" width="40%">
+        <v-dialog v-model="dialog_pago" width="40%" :persistent="dialog_persistent">
             <v-card>
                 <button @click="cerrar_modal()">Cerrar</button>
                 <v-container>
@@ -86,6 +86,7 @@ export default {
     props:['dialog_pago'],
     data() {
         return {
+            dialog_persistent:true,
             campos_pago:{
                 total:'100.00',
                 numero_tarjeta:'',
