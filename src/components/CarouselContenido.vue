@@ -27,7 +27,7 @@
               :key="contenido.id"
               v-slot:default="{ active, toggle }"
             >
-              <v-card height="140" width="250" class="margin-0-padding-0" @click="toggle">
+              <v-card height="140" width="250" class="margin-0-padding-0" @click="toggle,reproducir_video(contenido)">
                 <v-img :aspect-ratio="16/9" :src="contenido.portada" class="margin-0-padding-0">
                   <v-row class="fill-height" align="center" justify="center">
                     <v-scale-transition>
@@ -55,7 +55,11 @@ export default {
       model: "",
     };
   },
-  methods: {},
+  methods: {
+    reproducir_video(acceso){
+      console.log(acceso);
+    }
+  },
   created() {
     // console.log(this.data);
   },

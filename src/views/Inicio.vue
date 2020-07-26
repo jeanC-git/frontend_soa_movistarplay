@@ -232,20 +232,11 @@ export default {
   data() {
     return {
       model: null,
-      tipo_contenido: [
-        {
-          id: 1,
-          array_peliculas:[]
-        },
-        {
-          id: 2,
-          array_series:[]
-        },
-        {
-          id: 3,
-          array_tv_en_vivo:[]
-        },
-      ],
+      arrayContenido: {
+        peliculas: [],
+        serie: [],
+        canal: [],
+      },
     };
   },
   computed: {
@@ -259,15 +250,6 @@ export default {
         this.$router.push("/");
       }
     }
-    this.get_contenido();
-  },methods: {
-    get_contenido(){
-      let vue = this;
-      vue.axios.get('http://localhost:49220/api/publicacion/listarcontenido').then(function(response){
-        console.log(response.data.peliculas[0].duracion);
-        vue.array_peliculas=response.data.peliculas;
-      }); 
-    }
   },
   created() {
     this.listarContenido();
@@ -279,7 +261,6 @@ export default {
         .get("http://localhost:49220/api/publicacion/listarcontenido")
         .then((response) => {
           // console.log(response.data.peliculas[0]);
-
           vue.arrayContenido.peliculas = response.data.peliculas;
           vue.arrayContenido.serie = response.data.serie;
           vue.arrayContenido.canal = response.data.canal;

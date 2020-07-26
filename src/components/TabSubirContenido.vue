@@ -140,34 +140,6 @@
               </v-col>
             </v-row>
             <v-row>
-              <v-col cols="12" lg="4">
-                <v-select
-                  outlined
-                  name="input-7-4"
-                  label="Acceso"
-                  placeholder="Tipo de acceso"
-                  hide-details
-                  :items="[{id: 1, nombre: 'Lite'} , {id: 2, nombre: 'Premium'}]"
-                  item-value="id"
-                  item-text="nombre"
-                  v-model="nuevoContenido.acceso.id_plan"
-                  prepend-icon="mdi-clipboard-list"
-                ></v-select>
-              </v-col>
-              <v-col cols="12" lg="4">
-                <v-text-field
-                  outlined
-                  rows="2"
-                  name="input-7-4"
-                  label="Precio de alquiler"
-                  hide-details
-                  placeholder="Precio de alquiler"
-                  v-model="nuevoContenido.acceso.precio"
-                  prepend-icon="mdi-currency-usd-circle"
-                ></v-text-field>
-              </v-col>
-            </v-row>
-            <v-row>
               <v-col cols="12" lg="12">
                 <v-textarea
                   outlined
@@ -481,8 +453,8 @@ export default {
             },
             tipo_contenido: data,
             acceso: {
-              id_plan: vue.nuevoContenido.acceso.id_plan,
-              precio: vue.nuevoContenido.acceso.precio,
+              id_plan: "",
+              precio: "",
             },
           })
           .then((response) => {
