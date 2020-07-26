@@ -59,7 +59,6 @@ export default {
             vue.buscador
         )
         .then((response) => {
-          console.log(response.data);
           vue.contenidos = response.data;
         })
         .catch((error) => {
