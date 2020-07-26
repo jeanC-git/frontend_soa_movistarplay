@@ -1,0 +1,64 @@
+import AuthService from '../servicios/auth.service';
+
+const token = JSON.parse(localStorage.getItem('token'));
+const user = JSON.parse(localStorage.getItem('user'));
+const initialState = user && token
+    ? { status: { loggedIn: true }, user }
+    : { status: { loggedIn: false }, user: null };
+
+export const auth = {
+    namespaced: true,
+    state: initialState,
+    actions: {
+        login({ commit }, user) {
+            return AuthService.login(user).then(
+                user => {
+                    // console.log('auth.module', user);
+                    commit('loginSuccess', user);
+                    return Promise.resolve(user);
+                },
+                error => {
+                    commit('loginFailure');
+                    return Promise.reject(error);
+                }
+            );
+        },
+        logout({ commit }) {
+            AuthService.logout();
+            commit('logout');
+        },
+        register({ commit }, user) {
+            return AuthService.register(user).then(
+                response => {
+                    commit('registerSuccess');
+                    return Promise.resolve(response.data);
+                },
+                error => {
+                    commit('registerFailure');
+                    return Promise.reject(error);
+                }
+            );
+        }
+    },
+    mutations: {
+        loginSuccess(state, user) {
+            // user{ token : adssadas... , user: dataUser}
+            state.status.loggedIn = true;
+            state.user = user.user;
+        },
+        loginFailure(state) {
+            state.status.loggedIn = false;
+            state.user = null;
+        },
+        logout(state) {
+            state.status.loggedIn = false;
+            state.user = null;
+        },
+        registerSuccess(state) {
+            state.status.loggedIn = false;
+        },
+        registerFailure(state) {
+            state.status.loggedIn = false;
+        }
+    }
+};
