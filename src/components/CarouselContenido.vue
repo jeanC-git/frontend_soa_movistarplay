@@ -9,7 +9,7 @@
         class="margin-0-padding-0"
         style="display:flex; align-items:center"
       >
-        <p class="text-left" style="color:white; margin-left:4%; font-size:1.7rem">{{data.id}}</p>
+        <p class="text-left" style="color:white; margin-left:4%; font-size:1.7rem">{{nombre}}</p>
       </v-col>
     </v-row>
     <v-row>
@@ -22,21 +22,19 @@
             next-icon="mdi-chevron-right"
             show-arrows="mobile"
           >
-            <v-slide-item v-for="n in 15" :key="n" v-slot:default="{ active, toggle }">
-              <v-card
-                :color="active ? 'primary' : 'grey lighten-1'"
-                height="140"
-                width="250"
-                class="margin-0-padding-0"
-                @click="toggle"
-              >
-                <v-img :aspect-ratio="16/9" src="images/farfan.jpg" class="margin-0-padding-0">
+            <v-slide-item
+              v-for="contenido in data"
+              :key="contenido.id"
+              v-slot:default="{ active, toggle }"
+            >
+              <v-card height="140" width="250" class="margin-0-padding-0" @click="toggle">
+                <v-img :aspect-ratio="16/9" :src="contenido.portada" class="margin-0-padding-0">
                   <v-row class="fill-height" align="center" justify="center">
                     <v-scale-transition>
                       <p
                         class="text-center"
                         style="color:white; font-size:1.3rem;margin-top:30%"
-                      >Hoy a las 20:00</p>
+                      >{{contenido.nombre}}</p>
                     </v-scale-transition>
                   </v-row>
                 </v-img>
@@ -51,11 +49,15 @@
 </template>
 <script>
 export default {
-  props: ["data"],
+  props: ["data", "nombre"],
   data() {
     return {
-      model: ""
+      model: "",
     };
-  }
+  },
+  methods: {},
+  created() {
+    // console.log(this.data);
+  },
 };
 </script>
