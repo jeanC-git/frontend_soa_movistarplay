@@ -27,7 +27,6 @@
             </v-card>
           </v-tab-item>
       </v-tabs>
-
     </v-container>
   </div>
 </template>

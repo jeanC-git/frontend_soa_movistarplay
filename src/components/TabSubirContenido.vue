@@ -472,7 +472,7 @@ export default {
           .post("http://localhost:49220/api/publicacion/insertarcontenido", {
             contenido: {
               id_tipo_contenido: vue.nuevoContenido.tipo_contenido,
-              id_administrador: 6,
+              id_administrador: 1,
               id_categoria: vue.nuevoContenido.categoria,
               url_contenido: vue.nuevoContenido.link_trailer,
               portada: vue.nuevoContenido.link_portada,
