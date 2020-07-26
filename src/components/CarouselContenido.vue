@@ -45,19 +45,33 @@
       </v-col>
     </v-row>
     <!-- TV EN VIVO -->
+    <pagoAlquiler :dialog_pago="activar_pago" @update_state="estate"></pagoAlquiler>
   </div>
 </template>
 <script>
+import pagoAlquiler from './Modal_pago.vue'
 export default {
+  components:{
+    pagoAlquiler
+  },
   props: ["data", "nombre"],
   data() {
     return {
+      activar_pago:false,
       model: "",
     };
   },
   methods: {
     reproducir_video(acceso){
-      console.log(acceso);
+      let vue = this;
+      let id_plan_user= this.$store.state.auth.user.id_plan;
+      let id_plan_contenido = acceso.id_planes;
+      if(id_plan_contenido!==id_plan_user){
+        vue.activar_pago=true;
+        console.log(vue.activar_pago);
+      }
+    },estate(estado){
+      this.activar_pago=false;
     }
   },
   created() {
