@@ -346,7 +346,7 @@ export default {
       date: "",
       menu: false,
       reglasValidacion: {
-        tipo_contenido: [v => !!v || "Campo requerido"]
+        tipo_contenido: [(v) => !!v || "Campo requerido"],
       },
       nuevoContenido: {
         tipo_contenido: "",
@@ -363,10 +363,10 @@ export default {
         arrayTemporada: [],
         acceso: {
           id_plan: "",
-          precio: ""
-        }
+          precio: "",
+        },
       },
-      arrayCategorias: []
+      arrayCategorias: [],
     };
   },
   methods: {
@@ -380,22 +380,22 @@ export default {
         timer: timer,
         timerProgressBar: true,
         showClass: {
-          popup: showClass
+          popup: showClass,
         },
         hideClass: {
-          popup: hideClass
+          popup: hideClass,
         },
-        onOpen: toast => {
+        onOpen: (toast) => {
           toast.addEventListener("mouseenter", vue.$swal.stopTimer);
           toast.addEventListener("mouseleave", vue.$swal.resumeTimer);
-        }
+        },
       });
       Toast.fire({
         icon: type,
         title:
           "<p class='font-sacramento' style='font-family: Arial, sans-serif'>" +
           title +
-          "</p>"
+          "</p>",
       });
     },
     hoyFecha() {
@@ -428,7 +428,7 @@ export default {
           descripcion: vue.nuevoContenido.descripcion,
           fecha_estreno: vue.nuevoContenido.fecha_estreno,
           duracion: vue.nuevoContenido.duracion,
-          url: vue.nuevoContenido.link_tipo_contenido
+          url: vue.nuevoContenido.link_tipo_contenido,
         };
       } else {
         vue.nuevoContenido.tipo_contenido = 1;
@@ -436,7 +436,7 @@ export default {
           capitulos: vue.nuevoContenido.capitulos,
           descripcion: vue.nuevoContenido.descripcion,
           fecha_estreno: vue.nuevoContenido.fecha_estreno,
-          temporada: vue.nuevoContenido.arrayTemporada
+          temporada: vue.nuevoContenido.arrayTemporada,
         };
       }
       if (validar) {
@@ -444,20 +444,20 @@ export default {
           .post("http://localhost:49220/api/publicacion/insertarcontenido", {
             contenido: {
               id_tipo_contenido: vue.nuevoContenido.tipo_contenido,
-              id_administrador: 1,
+              id_administrador: 6,
               id_categoria: vue.nuevoContenido.categoria,
               url_contenido: vue.nuevoContenido.link_trailer,
               portada: vue.nuevoContenido.link_portada,
               tipo_control: 2,
-              nombre: vue.nuevoContenido.nombre
+              nombre: vue.nuevoContenido.nombre,
             },
             tipo_contenido: data,
             acceso: {
               id_plan: "",
-              precio: ""
-            }
+              precio: "",
+            },
           })
-          .then(response => {
+          .then((response) => {
             vue.swal(
               "Contenido agregado.",
               "success",
@@ -471,7 +471,7 @@ export default {
             }
             vue.reset();
           })
-          .catch(error => {
+          .catch((error) => {
             console.log(error);
           });
       } else {
@@ -482,7 +482,7 @@ export default {
       let vue = this;
       vue.axios
         .get("http://localhost:49220/api/Consumo/ListarCategorias")
-        .then(response => {
+        .then((response) => {
           vue.arrayCategorias = response.data;
         });
     },
@@ -495,7 +495,7 @@ export default {
         num_capitulos: vue.nuevoContenido.capitulos,
         fecha_estreno: vue.nuevoContenido.fecha_estreno,
 
-        capitulo: []
+        capitulo: [],
       };
       vue.nuevoContenido.arrayTemporada.push(nueva_temporada);
     },
@@ -507,14 +507,14 @@ export default {
         nombre: "Nombre del capitulo",
         descripcion: "Descripción",
         url_capitulo: "Url del capitulo",
-        portada_capitulo: "Portada del capitulo"
+        portada_capitulo: "Portada del capitulo",
       };
       vue.nuevoContenido.arrayTemporada[index].capitulo.push(nuevo_capitulo);
     },
     reset() {
       let vue = this;
       vue.$refs.formSubirContenido.reset();
-    }
-  }
+    },
+  },
 };
 </script>
