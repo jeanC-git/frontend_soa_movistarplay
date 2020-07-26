@@ -481,7 +481,7 @@ export default {
             },
             tipo_contenido: data,
             acceso: {
-              id_plan: vue.nuevoContenido.acceso.id_plan,
+              id_planes: vue.nuevoContenido.acceso.id_plan,
               precio: vue.nuevoContenido.acceso.precio,
             },
           })
