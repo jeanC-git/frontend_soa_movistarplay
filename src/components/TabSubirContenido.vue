@@ -400,7 +400,6 @@ export default {
   methods: {
     swal(title, type, timer, position, showClass, hideClass) {
       let vue = this;
-
       const Toast = vue.$swal.mixin({
         toast: true,
         position: position,

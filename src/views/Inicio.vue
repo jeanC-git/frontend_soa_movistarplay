@@ -261,7 +261,6 @@ export default {
         .get("http://localhost:49220/api/publicacion/listarcontenido")
         .then((response) => {
           // console.log(response.data.peliculas[0]);
-
           vue.arrayContenido.peliculas = response.data.peliculas;
           vue.arrayContenido.serie = response.data.serie;
           vue.arrayContenido.canal = response.data.canal;
