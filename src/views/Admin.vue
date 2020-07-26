@@ -183,7 +183,7 @@ export default {
             (response) => {
               vue.dialog = false;
               vue.swal(
-                `Bienvenido  ${vue.currentUser.user[0].nombre}`,
+                `Bienvenido  ${vue.currentUser.nombre}`,
                 "success",
                 2500,
                 "top",

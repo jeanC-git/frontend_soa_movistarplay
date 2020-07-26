@@ -27,7 +27,12 @@
               :key="contenido.id_canal"
               v-slot:default="{ active, toggle }"
             >
-              <v-card height="140" width="250" class="margin-0-padding-0" @click="toggle,reproducir_video(contenido)">
+              <v-card
+                height="140"
+                width="250"
+                class="margin-0-padding-0"
+                @click="toggle,reproducir_video(contenido)"
+              >
                 <v-img :aspect-ratio="16/9" :src="contenido.portada" class="margin-0-padding-0">
                   <v-row class="fill-height" align="center" justify="center">
                     <v-scale-transition>
@@ -49,30 +54,37 @@
   </div>
 </template>
 <script>
-import pagoAlquiler from './Modal_pago.vue'
+import pagoAlquiler from "./Modal_pago.vue";
 export default {
-  components:{
-    pagoAlquiler
+  components: {
+    pagoAlquiler,
   },
   props: ["data", "nombre"],
   data() {
     return {
-      activar_pago:false,
+      activar_pago: false,
       model: "",
     };
   },
+  computed: {
+    id_plan() {
+      if (this.$store.state.auth.user == null) return;
+      return this.$store.state.auth.user.id_plan;
+    },
+  },
   methods: {
-    reproducir_video(acceso){
+    reproducir_video(acceso) {
       let vue = this;
-      let id_plan_user= this.$store.state.auth.user.id_plan;
+      if (this.$store.state.auth.user == null) return;
+      let id_plan_user = this.$store.state.auth.user.id_plan;
       let id_plan_contenido = acceso.id_planes;
-      if(id_plan_contenido!==id_plan_user){
-        vue.activar_pago=true;
-        console.log(vue.activar_pago);
+      if (id_plan_contenido !== id_plan_user) {
+        vue.activar_pago = true;
       }
-    },estate(estado){
-      this.activar_pago=false;
-    }
+    },
+    estate(estado) {
+      this.activar_pago = false;
+    },
   },
   created() {
     // console.log(this.data);

@@ -160,7 +160,7 @@ export default {
     extended: false,
     dialog: false,
     login_form: {
-      email: "joel@joel.com",
+      email: "jean@gmail.com",
       password: "12345678",
     },
     reglas: {
