@@ -9,8 +9,8 @@ export default new Vuex.Store({
     usuarioLogeado: false,
     dataUsuario: false,
     token: false,
-    buscador_select:0,
-    buscador_text:'',
+    buscador_select: 0,
+    buscador_text: '',
   },
   mutations: {
   },
