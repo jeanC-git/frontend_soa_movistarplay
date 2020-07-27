@@ -3,7 +3,7 @@
     <v-dialog v-model="dialog_pago" width="40%" :persistent="dialog_persistent">
       <v-card>
         <v-card-title>
-          {{titulo}} {{data_alquiler.nombre}}
+          Alquiler del contenido: {{data_alquiler.nombre}}
           <v-spacer></v-spacer>
           <button @click="cerrar_modal()" icon>
             <v-icon>mdi-close</v-icon>
@@ -58,15 +58,6 @@
                       ></v-text-field>
                       <div v-text="campos_pago.total"></div>
                     </v-col>
-                    <v-col cols="12" sm="6" md="6">
-                      <v-text-field
-                        label="Fecha de vencimiento"
-                        color="black"
-                        v-model="campos_pago.fecha_vencimiento"
-                        filled
-                        disabled
-                      ></v-text-field>
-                    </v-col>
                   </v-row>
                   <v-divider></v-divider>
                   <v-row>
@@ -106,9 +97,6 @@
             </v-row>
           </v-card-text>
           <v-card-actions>
-            <pre>
-              {{data_alquiler}}
-            </pre>
             <v-spacer></v-spacer>
             <v-btn color="#43aafb" class="mx-3" type="submit">Alquilar</v-btn>
           </v-card-actions>
@@ -145,20 +133,9 @@ export default {
       },
     };
   },
-  mounted() {
-    let vue = this;
-    vue.campos_pago.total = vue.data_alquiler.precio;
-    vue.campos_pago.subtotal = parseFloat(vue.campos_pago.total / 0.18).toFixed(
-      2
-    );
-    vue.campos_pago.documento = "F-000" + Math.floor(Math.random() * 100);
-    vue.campos_pago.tipo_documento = "FACTURA";
-    vue.campos_pago.detalle_pago.total = vue.campos_pago.total;
-    vue.campos_pago.detalle_pago.subtotal = vue.campos_pago.subtotal;
-    vue.campos_pago.detalle_pago.descripcion =
-      "Alquiler del contenido " + vue.data_alquiler.nombre;
-    vue.campos_pago.detalle_pago.periodo =
-      "15 días a partir de " + vue.hoyFecha();
+
+  updated() {
+    this.llenarData();
   },
   methods: {
     swal(title, type, timer, position, showClass, hideClass) {
@@ -260,6 +237,21 @@ export default {
         })
         .catch((error) => {});
       vue.cerrar_modal();
+    },
+    llenarData() {
+      let vue = this;
+      vue.campos_pago.total = vue.data_alquiler.precio;
+      vue.campos_pago.subtotal = parseFloat(
+        vue.campos_pago.total * 0.82
+      ).toFixed(2);
+      vue.campos_pago.documento = "F-000" + Math.floor(Math.random() * 100);
+      vue.campos_pago.tipo_documento = "FACTURA";
+      vue.campos_pago.detalle_pago.total = vue.campos_pago.total;
+      vue.campos_pago.detalle_pago.subtotal = vue.campos_pago.subtotal;
+      vue.campos_pago.detalle_pago.descripcion =
+        "Alquiler del contenido " + vue.data_alquiler.nombre;
+      vue.campos_pago.detalle_pago.periodo =
+        "15 días a partir de " + vue.hoyFecha();
     },
   },
 };
