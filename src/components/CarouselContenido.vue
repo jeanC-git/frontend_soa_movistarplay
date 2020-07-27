@@ -50,7 +50,7 @@
       </v-col>
     </v-row>
     <!-- TV EN VIVO -->
-    <pagoAlquiler :dialog_pago="activar_pago" @update_state="estate"></pagoAlquiler>
+    <pagoAlquiler :dialog_pago="activar_pago"  @update_state="estate"></pagoAlquiler>
     <!-- VER VIDEO -->
     <v-dialog v-model="dialog_video" fullscreen hide-overlay transition="dialog-bottom-transition">
       <v-card>
@@ -112,6 +112,8 @@ export default {
         vue.axios.post('http://localhost:49220/api/reproducir/contenido',data).then(function(response){
           document.getElementById('video').setAttribute('src',response.data[0].url);
           document.getElementById('video').load();
+          let seg=vue.convertir_segundos(response.data[0].tiempo_vista);
+          document.getElementById('video').currentTime=seg;
           vue.id_historial= response.data[0].id_historial;
         })
       }
@@ -126,7 +128,6 @@ export default {
         tiempo_vista:convertido,
       }
       vue.axios.put('http://localhost:49220/api/reproducir/verificar',data).then(function(response){
-        console.log(response);
       })
     },fancyTimeFormat(duration){   
       // Hours, minutes and seconds
@@ -137,10 +138,23 @@ export default {
       var ret = "";
       if (hrs > 0) {
           ret += "" + hrs + ":" + (mins < 10 ? "0" : "");
+      }else{
+        ret += "00"+ ":" + (mins < 10 ? "0" : "");
       }
       ret += "" + mins + ":" + (secs < 10 ? "0" : "");
       ret += "" + secs;
       return ret;
+    },convertir_segundos(duration){
+      if( duration!=null){
+        var res = duration.split(":");
+        var horas = res[0]*3600; 
+        var minutos = res[1]*60;
+        var segundos = res[2]; 
+        console.log(duration);
+        return  parseInt(horas)+parseInt(minutos)+parseInt(segundos);
+      }else{
+        return 0;
+      }
     }
   },
   created() {

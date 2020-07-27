@@ -2,28 +2,42 @@
     <div>
         <v-data-table dark
         style="background:#262626"
-        :headers="headers_vistos"
-        :items="desserts"
-        :items-per-page="5"
-        class="elevation-1"
-        v-if="tipo_consumo==1"
-        ></v-data-table>
-        <v-data-table dark
-        style="background:#262626"
         :headers="headers_mi_lista"
-        :items="desserts"
+        :items="items"
         :items-per-page="5"
         class="elevation-1"
-        v-else-if="tipo_consumo==2"
-        ></v-data-table>
+        v-if="tipo_consumo==2"
+        >
+            <template v-slot:top>
+                <v-row class="mr-2 ml-2">
+                <v-col cols="12" lg="11" md="11">
+                    <v-text-field :label="'Filtro por nombre'" v-model="buscador"></v-text-field>
+                </v-col>
+                <v-col cols="12" lg="1" md="1">
+                    <v-btn class="mx-2" fab large @click="listarContenidos()">
+                    <v-icon dark>mdi-card-search-outline</v-icon>
+                    </v-btn>
+                </v-col>
+                </v-row>
+            </template>
+            <template v-slot:item.portada="{ item }">
+                <v-container fluid>
+                <v-row justify="space-around"></v-row>
+                    <v-col cols="12">
+                        <v-img :src="item.portada" aspect-ratio="1.7" contain></v-img>
+                    </v-col>
+                </v-container>
+            </template>
+        </v-data-table>
         <v-data-table dark
         style="background:#262626"
         :headers="headers_mis_alquileres"
-        :items="desserts"
+        :items="items"
         :items-per-page="5"
         class="elevation-1"
         v-else-if="tipo_consumo==3"
-        ></v-data-table>
+        >
+        </v-data-table>
     </div>
 </template> 
 <script>
@@ -31,17 +45,11 @@ export default {
     props: ["tipo_consumo"],
     data() {
         return {
-        headers_vistos: [
-            { text: 'Titulo', value: 'calories' },
-            { text: 'Género', value: 'fat' },
-            { text: 'Estado', value: 'carbs' },
-            { text: 'Visto', value: 'protein' },
-        ],
         headers_mi_lista: [
-            { text: 'Nombre', value: 'calories' },
-            { text: 'Tiempo de vista', value: 'fat' },
-            { text: 'Fecha', value: 'carbs' },
-            { text: 'Portada', value: 'protein' },
+            { text: 'Nombre', value: 'nombre' },
+            { text: 'Tiempo de vista', value: 'tiempo_vista' },
+            { text: 'Fecha', value: 'fecha' },
+            { text: 'Portada', value: 'portada' },
         ],
         headers_mis_alquileres: [
             { text: 'Nombre', value: 'calories' },
@@ -49,71 +57,48 @@ export default {
             { text: 'Fecha fin', value: 'carbs' },
             { text: 'tipo control', value: 'protein' },
         ],
-        desserts: [
-            {
-                calories: 159,
-                fat: 6.0,
-                carbs: 24,
-                protein: 4.0,
-            },
-            {
-                calories: 237,
-                fat: 9.0,
-                carbs: 37,
-                protein: 4.3,
-            },
-            {
-                calories: 262,
-                fat: 16.0,
-                carbs: 23,
-                protein: 6.0,
-            },
-            {
-                calories: 305,
-                fat: 3.7,
-                carbs: 67,
-                protein: 4.3,
-            },
-            {
-                calories: 356,
-                fat: 16.0,
-                carbs: 49,
-                protein: 3.9,
-            },
-            {
-                calories: 375,
-                fat: 0.0,
-                carbs: 94,
-                protein: 0.0,
-            },
-            {
-                calories: 392,
-                fat: 0.2,
-                carbs: 98,
-                protein: 0,
-            },
-            {
-                calories: 408,
-                fat: 3.2,
-                carbs: 87,
-                protein: 6.5,
-            },
-            {
-                calories: 452,
-                fat: 25.0,
-                carbs: 51,
-                protein: 4.9,
-            },
-            {
-                calories: 518,
-                fat: 26.0,
-                carbs: 65,
-                protein: 7,
-            },
-        ],
+        items:[
+
+        ],buscador:'',
         }
+    },
+    mounted() {
+        this.get_listas();
     },methods: {
-        
+        get_listas(){
+            let vue = this;
+            console.log(vue.tipo_consumo);
+            if(vue.tipo_consumo==2){
+            let id_cliente = this.$store.state.auth.user.id_cliente;
+                vue.axios.get('http://localhost:49220/api/Consumo/MiLista?id_cliente='+id_cliente).then(function(response){
+                    vue.items=response.data;
+                    console.log(vue.items);
+                });
+            }else if(vue.tipo_consumo==3){
+                let id_cliente = this.$store.state.auth.user.id_cliente;
+                vue.axios.get('http://localhost:49220/api/Consumo/Misalquileres?id_cliente='+id_cliente).then(function(response){
+                    vue.items=response.data;
+                    console.log(vue.items);
+                });
+            }
+        },listarContenidos() {
+            let vue = this;
+            let id_cliente = this.$store.state.auth.user.id_cliente;
+            let buscador = vue.buscador;
+            if(buscador==''){
+                vue.get_listas();
+            }else{
+                vue.axios.get(
+                    "http://localhost:49220/api/Consumo/busquedahistorial?id_cliente=" +id_cliente+"&nombre="+
+                    vue.buscador
+                ).then((response) => {
+                    vue.items = response.data;
+                })
+                .catch((error) => {
+                console.log(error);
+                });
+            }
+        },      
     },
 }
 </script>

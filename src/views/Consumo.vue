@@ -48,7 +48,6 @@ export default{
       right: false,
       tabs: 3,
       array_tipo_consumo: [
-        { nombre: "Vistos", tipo: 1 },
         { nombre: "Mi lista", tipo: 2 },
         { nombre: "Mis alquileres", tipo: 3 },
       ],
