@@ -53,8 +53,7 @@
     <pagoAlquiler
       :dialog_pago="activar_pago"
       @update_state="estate"
-      :data_alquiler="data_alquiler"
-      :titulo="'Alquiler del contenido :'"
+      :data_alquiler="get_data_alquiler"
     ></pagoAlquiler>
     <!-- VER VIDEO -->
     <v-dialog v-model="dialog_video" fullscreen hide-overlay transition="dialog-bottom-transition">
@@ -102,6 +101,9 @@ export default {
     };
   },
   computed: {
+    get_data_alquiler() {
+      return this.data_alquiler;
+    },
     id_plan() {
       if (this.$store.state.auth.user == null) return;
       return this.$store.state.auth.user.id_plan;
@@ -120,16 +122,20 @@ export default {
         vue.info_peli.title = acceso.nombre;
         vue.dialog_video = true;
         let data = {
-          id_cliente:this.$store.state.auth.user.id_cliente,
-          id_contenido:acceso.id_contenido
-        }
-        vue.axios.post('http://localhost:49220/api/reproducir/contenido',data).then(function(response){
-          document.getElementById('video').setAttribute('src',response.data[0].url);
-          document.getElementById('video').load();
-          let seg=vue.convertir_segundos(response.data[0].tiempo_vista);
-          document.getElementById('video').currentTime=seg;
-          vue.id_historial= response.data[0].id_historial;
-        })
+          id_cliente: this.$store.state.auth.user.id_cliente,
+          id_contenido: acceso.id_contenido,
+        };
+        vue.axios
+          .post("http://localhost:49220/api/reproducir/contenido", data)
+          .then(function (response) {
+            document
+              .getElementById("video")
+              .setAttribute("src", response.data[0].url);
+            document.getElementById("video").load();
+            let seg = vue.convertir_segundos(response.data[0].tiempo_vista);
+            document.getElementById("video").currentTime = seg;
+            vue.id_historial = response.data[0].id_historial;
+          });
       }
     },
     estate(estado) {
@@ -141,11 +147,13 @@ export default {
       var convertido = this.fancyTimeFormat(current_time);
       var data = {
         id: vue.id_historial,
-        tiempo_vista:convertido,
-      }
-      vue.axios.put('http://localhost:49220/api/reproducir/verificar',data).then(function(response){
-      })
-    },fancyTimeFormat(duration){   
+        tiempo_vista: convertido,
+      };
+      vue.axios
+        .put("http://localhost:49220/api/reproducir/verificar", data)
+        .then(function (response) {});
+    },
+    fancyTimeFormat(duration) {
       // Hours, minutes and seconds
       var hrs = ~~(duration / 3600);
       var mins = ~~((duration % 3600) / 60);
@@ -153,25 +161,26 @@ export default {
       // Output like "1:01" or "4:03:59" or "123:03:59"
       var ret = "";
       if (hrs > 0) {
-          ret += "" + hrs + ":" + (mins < 10 ? "0" : "");
-      }else{
-        ret += "00"+ ":" + (mins < 10 ? "0" : "");
+        ret += "" + hrs + ":" + (mins < 10 ? "0" : "");
+      } else {
+        ret += "00" + ":" + (mins < 10 ? "0" : "");
       }
       ret += "" + mins + ":" + (secs < 10 ? "0" : "");
       ret += "" + secs;
       return ret;
-    },convertir_segundos(duration){
-      if( duration!=null){
+    },
+    convertir_segundos(duration) {
+      if (duration != null) {
         var res = duration.split(":");
-        var horas = res[0]*3600; 
-        var minutos = res[1]*60;
-        var segundos = res[2]; 
+        var horas = res[0] * 3600;
+        var minutos = res[1] * 60;
+        var segundos = res[2];
         console.log(duration);
-        return  parseInt(horas)+parseInt(minutos)+parseInt(segundos);
-      }else{
+        return parseInt(horas) + parseInt(minutos) + parseInt(segundos);
+      } else {
         return 0;
       }
-    }
+    },
   },
   created() {
     // console.log(this.data);

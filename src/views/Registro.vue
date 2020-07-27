@@ -483,15 +483,14 @@ export default {
         vue.step1error = true;
       } else {
         vue.step1error = false;
-
         switch (vue.radioGroup) {
-          case "1":
+          case 1:
             vue.step2trio.title = true;
             break;
-          case "2":
+          case 2:
             vue.step2tv.title = true;
             break;
-          case "3":
+          case 3:
             vue.step2movil.title = true;
             break;
         }
@@ -515,7 +514,7 @@ export default {
       }
       if (validar) {
         switch (vue.radioGroup) {
-          case "1":
+          case 1:
             var data = {
               id_perfil: vue.radioGroup,
               ciudad: vue.step2trio.departamento,
@@ -523,14 +522,14 @@ export default {
               numero_telefono: vue.step2trio.telefono,
             };
             break;
-          case "2":
+          case 2:
             var data = {
               id_perfil: vue.radioGroup,
               numero_cuenta: vue.step2tv.numeroCuenta,
               numero_dni: vue.step2tv.nrodocumento,
             };
             break;
-          case "3":
+          case 3:
             var data = {
               id_perfil: vue.radioGroup,
               numero_telefono: vue.step2movil.telefono,

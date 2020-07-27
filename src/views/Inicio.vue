@@ -212,8 +212,7 @@
         </v-row>
       </v-col>
     </v-row>
-    {{get_select}}
-    {{get_text}}
+
     <!-- MAS VISTOS -->
     <!-- ===========================================  -->
     <div v-if="mostrar_buscador==false">
