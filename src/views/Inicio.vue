@@ -236,35 +236,42 @@ export default {
   data() {
     return {
       model: null,
-      mostrar_buscador:false,
+      mostrar_buscador: false,
       arrayContenido: {
         peliculas: [],
         serie: [],
         canal: [],
       },
-      contenido_busqueda:{}
+      contenido_busqueda: {},
     };
   },
   computed: {
     currentUser() {
       return this.$store.state.auth.user;
     },
-    get_select(){
+    get_select() {
       let vue = this;
-      let buscador_select= this.$store.state.buscador_select;
-      return ;
+      let buscador_select = this.$store.state.buscador_select;
+      return;
     },
-    get_text(){
-      let vue=this;
-      let buscador_text=this.$store.state.buscador_text;
-      vue.axios.get('http://localhost:49220/api/Consumo/busquedapornombre/?nombre='+buscador_text).then(function(response){
-        vue.contenido_busqueda=response.data;
-        let cantidad = vue.contenido_busqueda.length;
-        (cantidad == 1) ? vue.mostrar_buscador=true : vue.mostrar_buscador=false;
-        console.log(cantidad)
-      });
+    get_text() {
+      let vue = this;
+      let buscador_text = this.$store.state.buscador_text;
+      vue.axios
+        .get(
+          "http://localhost:49220/api/Consumo/busquedapornombre/?nombre=" +
+            buscador_text
+        )
+        .then(function (response) {
+          vue.contenido_busqueda = response.data;
+          let cantidad = vue.contenido_busqueda.length;
+          cantidad == 1
+            ? (vue.mostrar_buscador = true)
+            : (vue.mostrar_buscador = false);
+          // console.log(cantidad)
+        });
       return buscador_text;
-    }
+    },
   },
   mounted() {
     if (!this.currentUser) {

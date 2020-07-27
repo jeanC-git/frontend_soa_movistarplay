@@ -50,7 +50,12 @@
       </v-col>
     </v-row>
     <!-- TV EN VIVO -->
-    <pagoAlquiler :dialog_pago="activar_pago"  @update_state="estate"></pagoAlquiler>
+    <pagoAlquiler
+      :dialog_pago="activar_pago"
+      @update_state="estate"
+      :data_alquiler="data_alquiler"
+      :titulo="'Alquiler del contenido :'"
+    ></pagoAlquiler>
     <!-- VER VIDEO -->
     <v-dialog v-model="dialog_video" fullscreen hide-overlay transition="dialog-bottom-transition">
       <v-card>
@@ -61,9 +66,16 @@
           <v-toolbar-title v-text="info_peli.title"></v-toolbar-title>
         </v-toolbar>
         <div style="height:100%">
-            <video width="100%" height="auto" crossorigin controls id="video" @timeupdate="video_change()">
-              <source src="" type="video/mp4" >
-            </video> 
+          <video
+            width="100%"
+            height="auto"
+            crossorigin
+            controls
+            id="video"
+            @timeupdate="video_change()"
+          >
+            <source src type="video/mp4" />
+          </video>
         </div>
       </v-card>
     </v-dialog>
@@ -78,14 +90,15 @@ export default {
   props: ["data", "nombre"],
   data() {
     return {
-      activar_pago:false,
-      dialog_video:false,
+      data_alquiler: [],
+      activar_pago: false,
+      dialog_video: false,
       model: "",
-      info_peli:{
-        title :'',
+      info_peli: {
+        title: "",
       },
-      video_source:'',
-      id_historial:'',
+      video_source: "",
+      id_historial: "",
     };
   },
   computed: {
@@ -100,11 +113,12 @@ export default {
       if (this.$store.state.auth.user == null) return;
       let id_plan_user = this.$store.state.auth.user.id_plan;
       let id_plan_contenido = acceso.id_planes;
-      if(id_plan_contenido!==id_plan_user){
-        vue.activar_pago=true;
-      }else{
-        vue.info_peli.title=acceso.nombre;
-        vue.dialog_video=true;
+      if (id_plan_contenido !== id_plan_user) {
+        vue.data_alquiler = acceso;
+        vue.activar_pago = true;
+      } else {
+        vue.info_peli.title = acceso.nombre;
+        vue.dialog_video = true;
         let data = {
           id_cliente:this.$store.state.auth.user.id_cliente,
           id_contenido:acceso.id_contenido
@@ -117,11 +131,13 @@ export default {
           vue.id_historial= response.data[0].id_historial;
         })
       }
-    },estate(estado){
-      this.activar_pago=false;
-    },video_change(){
+    },
+    estate(estado) {
+      this.activar_pago = false;
+    },
+    video_change() {
       let vue = this;
-      var current_time=document.getElementById('video').currentTime;
+      var current_time = document.getElementById("video").currentTime;
       var convertido = this.fancyTimeFormat(current_time);
       var data = {
         id: vue.id_historial,
@@ -159,8 +175,7 @@ export default {
   },
   created() {
     // console.log(this.data);
-  },mounted() {
   },
+  mounted() {},
 };
-
 </script>

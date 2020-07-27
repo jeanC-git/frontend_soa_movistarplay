@@ -57,16 +57,6 @@
                         disabled
                       ></v-text-field>
                     </v-col>
-
-                    <v-col cols="12" sm="6" md="6">
-                      <v-text-field
-                        label="Fecha de vencimiento"
-                        color="black"
-                        v-model="campos_pago.fecha_vencimiento"
-                        filled
-                        disabled
-                      ></v-text-field>
-                    </v-col>
                   </v-row>
                   <v-divider></v-divider>
                   <v-row>
@@ -106,9 +96,6 @@
             </v-row>
           </v-card-text>
           <v-card-actions>
-            <pre>
-              {{data_alquiler}}
-            </pre>
             <v-spacer></v-spacer>
             <v-btn color="#43aafb" class="mx-3" type="submit">Alquilar</v-btn>
           </v-card-actions>
@@ -147,18 +134,18 @@ export default {
   },
   mounted() {
     let vue = this;
-    vue.campos_pago.total = vue.data_alquiler.precio;
-    vue.campos_pago.subtotal = parseFloat(vue.campos_pago.total / 0.18).toFixed(
+
+    vue.campos_pago.total = vue.$store.state.auth.user.id_plan == 1 ? 80 : 120;
+    vue.campos_pago.subtotal = parseFloat(vue.campos_pago.total * 0.82).toFixed(
       2
     );
     vue.campos_pago.documento = "F-000" + Math.floor(Math.random() * 100);
     vue.campos_pago.tipo_documento = "FACTURA";
     vue.campos_pago.detalle_pago.total = vue.campos_pago.total;
     vue.campos_pago.detalle_pago.subtotal = vue.campos_pago.subtotal;
-    vue.campos_pago.detalle_pago.descripcion =
-      "Alquiler del contenido " + vue.data_alquiler.nombre;
+    vue.campos_pago.detalle_pago.descripcion = "Pago de membresía del mes";
     vue.campos_pago.detalle_pago.periodo =
-      "15 días a partir de " + vue.hoyFecha();
+      "1 mes a partir de " + vue.hoyFecha();
   },
   methods: {
     swal(title, type, timer, position, showClass, hideClass) {
@@ -223,7 +210,7 @@ export default {
           tipo_documento: vue.campos_pago.tipo_documento,
           fecha_vencimiento: vue.campos_pago.fecha_vencimiento_tarjeta,
           // 1: "pago por motivo de membresia mensual ; 2: pago por motivo de alquiler de contenido "
-          tipo_pago: "2",
+          tipo_pago: "1",
           detalle_pago: [
             {
               total: vue.campos_pago.detalle_pago.total,
@@ -234,10 +221,6 @@ export default {
               periodo: vue.campos_pago.detalle_pago.periodo,
             },
           ],
-        },
-        alquiler: {
-          id_cliente: vue.$store.state.auth.user.id_cliente,
-          id_contenido: vue.data_alquiler.id_contenido,
         },
       };
 
@@ -250,7 +233,7 @@ export default {
           vue.campos_pago.ccv = "";
 
           vue.swal(
-            `Acaba de alquilar : ${vue.data_alquiler.nombre}`,
+            `Acaba de realizar el pago del mes`,
             "success",
             2500,
             "top",
