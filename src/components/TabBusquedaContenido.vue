@@ -16,7 +16,7 @@
                 <v-text-field :label="'Filtro por nombre'" v-model="buscador"></v-text-field>
               </v-col>
               <v-col cols="12" lg="1" md="1">
-                <v-btn class="mx-2" fab large @click="listarContenidos()">
+                <v-btn class="mx-2" fab large @click="listarBusqueda()">
                   <v-icon dark>mdi-card-search-outline</v-icon>
                 </v-btn>
               </v-col>
@@ -44,19 +44,38 @@ export default {
       headers: [
         { text: "Portada", value: "portada", align: "center" },
         { text: "Nombre", value: "nombre", align: "center" },
-        { text: "Duración", value: "calories", align: "center" },
-        { text: "Categoría", value: "id_categoria", align: "center" },
+        // { text: "Duración", value: "calories", align: "center" },
+        { text: "Categoría", value: "nombre_categoria", align: "center" },
       ],
       contenidos: [],
     };
+  },mounted() {
+    this.listarContenido();
   },
   methods: {
-    listarContenidos() {
+    listarBusqueda() {
+      let vue = this;
+      let buscador = vue.buscador;
+      if(buscador!=''){
+        vue.axios
+          .get(
+            "http://localhost:49220/api/consumo/busquedapornombre?nombre=" +
+              buscador
+          )
+          .then((response) => {
+            vue.contenidos = response.data;
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }else{
+        vue.listarContenido();
+      }
+    },listarContenido(){
       let vue = this;
       vue.axios
         .get(
-          "http://localhost:49220/api/consumo/busquedapornombre?nombre=" +
-            vue.buscador
+          "http://localhost:49220/api/publicacion/Miscontenidossubidos"
         )
         .then((response) => {
           vue.contenidos = response.data;
@@ -64,7 +83,7 @@ export default {
         .catch((error) => {
           console.log(error);
         });
-    },
+    }
   },
 };
 </script>

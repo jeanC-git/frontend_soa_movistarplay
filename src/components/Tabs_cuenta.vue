@@ -46,7 +46,7 @@
                                 <v-list-item-title>
                                     <v-checkbox
                                         v-model="checkbox_control_mayor"
-                                        :label="'TE - Para todos los públicos '"
+                                        :label="'TE - Para mayores de 18 años '"
                                         @change="(checkbox_control_todo==true) ? checkbox_control_todo=false : checkbox_control_mayor=true"
                                     ></v-checkbox>
                                 </v-list-item-title>
@@ -81,7 +81,7 @@
                                     ></v-text-field>
                                 </v-list-item-title>
                                 <v-card-actions class="justify-end">
-                                    <v-btn  color="primary">Guardar</v-btn>
+                                    <v-btn  color="primary" @click="guardar_control()">Guardar</v-btn>
                                 </v-card-actions>
                             </v-list-item-content>
                         </v-list-item>
@@ -225,7 +225,52 @@ export default {
         Activar_control(){
             let vue = this;
             (vue.checkbox==true) ? vue.disabled_card_control=false : vue.disabled_card_control=true ;
-        }
+        },guardar_control(){
+            let vue=this;
+            let tipo = (vue.checkbox_control_todo==true) ? '+18' : '-18';
+            let data={
+                id_cliente: vue.$store.state.auth.user.id_cliente,
+                pin_acceso: vue.pin_acceso,
+                tipo:tipo
+            }
+            vue.axios.post('http://localhost:49220/api/reproducir/bloqueo',data).then(function(){
+                vue.swal(
+                    "Pin guardado.",
+                    "success",
+                    5000,
+                    "top",
+                    "animate__animated animate__fadeInDown",
+                    "animate__animated animate__fadeOut"
+                );
+            });
+        },swal(title, type, timer, position, showClass, hideClass) {
+            let vue = this;
+
+            const Toast = vue.$swal.mixin({
+                toast: true,
+                position: position,
+                showConfirmButton: false,
+                timer: timer,
+                timerProgressBar: true,
+                showClass: {
+                popup: showClass,
+                },
+                hideClass: {
+                popup: hideClass,
+                },
+                onOpen: (toast) => {
+                toast.addEventListener("mouseenter", vue.$swal.stopTimer);
+                toast.addEventListener("mouseleave", vue.$swal.resumeTimer);
+                },
+            });
+            Toast.fire({
+                icon: type,
+                title:
+                "<p class='font-sacramento' style='font-family: Arial, sans-serif'>" +
+                title +
+                "</p>",
+            });
+            },
     },
 }
 </script>

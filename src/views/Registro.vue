@@ -55,7 +55,6 @@
                 </v-row>
                 <hr />
               </div>
-
               <v-row class="mb-2">
                 <v-col cols="12">
                   <v-btn tile color="#69C0F7" block dark @click="irPaso2()">Continuar</v-btn>
@@ -80,7 +79,6 @@
             </v-radio-group>
           </v-card-text>
         </v-card>
-
         <!-- INGRESAR DATOS DE CONFIRMACION SEGUN PLAN -->
         <v-card elevation="0" v-if="step2" style="max-width:500px;">
           <v-card-title
@@ -483,21 +481,28 @@ export default {
         vue.step1error = true;
       } else {
         vue.step1error = false;
-
         switch (vue.radioGroup) {
-          case "1":
+          case 1:
             vue.step2trio.title = true;
             break;
-          case "2":
+          case 2:
             vue.step2tv.title = true;
             break;
-          case "3":
+          case 3:
             vue.step2movil.title = true;
             break;
         }
         vue.step2 = true;
         vue.step1 = false;
       }
+    },
+    listarPerfiles() {
+      let vue = this;
+      vue.axios
+        .get("http://localhost:49220/api/afiliacion/listarperfil")
+        .then((response) => {
+          vue.arrayPerfiles = response.data;
+        });
     },
     formRegistraMovistarPlay(formValidar) {
       let vue = this;
@@ -515,7 +520,7 @@ export default {
       }
       if (validar) {
         switch (vue.radioGroup) {
-          case "1":
+          case 1:
             var data = {
               id_perfil: vue.radioGroup,
               ciudad: vue.step2trio.departamento,
@@ -523,14 +528,14 @@ export default {
               numero_telefono: vue.step2trio.telefono,
             };
             break;
-          case "2":
+          case 2:
             var data = {
               id_perfil: vue.radioGroup,
               numero_cuenta: vue.step2tv.numeroCuenta,
               numero_dni: vue.step2tv.nrodocumento,
             };
             break;
-          case "3":
+          case 3:
             var data = {
               id_perfil: vue.radioGroup,
               numero_telefono: vue.step2movil.telefono,
@@ -542,7 +547,6 @@ export default {
           url: "http://localhost:49220/api/afiliacion/verificarcliente",
           data: data,
         };
-
         vue
           .axios(config)
           .then((response) => {
@@ -555,7 +559,6 @@ export default {
               "animate__animated animate__fadeOut"
             );
             vue.formRegistro.id_cuenta = response.data[0].id;
-
             vue.step2trio.title = false;
             vue.step2tv.title = false;
             vue.step2movil.title = false;
@@ -631,15 +634,7 @@ export default {
             console.log(error);
           });
       }
-    },
-    listarPerfiles() {
-      let vue = this;
-      vue.axios
-        .get("http://localhost:49220/api/afiliacion/listarperfil")
-        .then((response) => {
-          vue.arrayPerfiles = response.data;
-        });
-    },
+    }
   },
 };
 </script>

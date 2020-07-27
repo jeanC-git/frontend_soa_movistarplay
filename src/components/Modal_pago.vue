@@ -56,8 +56,8 @@
                         filled
                         disabled
                       ></v-text-field>
+                      <div v-text="campos_pago.total"></div>
                     </v-col>
-
                     <v-col cols="12" sm="6" md="6">
                       <v-text-field
                         label="Fecha de vencimiento"
