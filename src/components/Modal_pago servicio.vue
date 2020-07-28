@@ -97,7 +97,7 @@
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="#43aafb" class="mx-3" type="submit">Alquilar</v-btn>
+            <v-btn color="#43aafb" class="mx-3" type="submit">Pagar</v-btn>
           </v-card-actions>
         </v-form>
       </v-card>

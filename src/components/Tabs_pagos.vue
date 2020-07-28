@@ -3,6 +3,9 @@
     <v-container>
       <template>
         <div style="display: flex;justify-content: end;" v-if="tipo_pago==1">
+          <v-btn class="mx-2" color="secondary" outlined icon @click="listarPagosServicio()">
+            <v-icon>mdi-file-refresh</v-icon>
+          </v-btn>
           <v-btn color="primary" dark class="mb-2" @click="activar_pago=true">Hacer pago del mes</v-btn>
           <pagoServicio
             :dialog_pago="activar_pago"
@@ -111,20 +114,15 @@ export default {
         { text: "Subtotal", align: "start", value: "subtotal" },
         { text: "Fecha", align: "start", value: "fecha" },
         { text: "Descripcion", align: "start", value: "descripcion" },
-        { text: "igv", align: "start", value: "igv" },
         { text: "Tipo documento", align: "start", value: "tipo_documento" },
       ],
       headers_pago_alquiler: [
-        { text: "Total", align: "start", value: "total" },
+        { text: "Descripción", align: "start", value: "descripcion" },
+        { text: "Periódo", align: "start", value: "periodo" },
         { text: "Subtotal", align: "start", value: "subtotal" },
+        { text: "Total", align: "start", value: "total" },
         { text: "Fecha", align: "start", value: "fecha" },
-        { text: "igv", align: "start", value: "documento" },
-        { text: "Tipo documento", align: "start", value: "Tipo documento" },
-        {
-          text: "Fecha vencimiento",
-          align: "start",
-          value: "Fecha vencimiento",
-        },
+        { text: "Tipo documento", align: "start", value: "tipo_documento" },
       ],
       headers_detalle_alquiler: [
         { text: "Fecha", align: "center", value: "Fecha" },
