@@ -57,6 +57,15 @@
                         disabled
                       ></v-text-field>
                     </v-col>
+                    <v-col cols="12" sm="6" md="6">
+                      <v-select
+                        label="Tipo de documento"
+                        color="black"
+                        v-model="tipo_documento"
+                        :items="['FACTURA','BOLETA']"
+                        filled
+                      ></v-select>
+                    </v-col>
                   </v-row>
                   <v-divider></v-divider>
                   <v-row>
@@ -64,6 +73,7 @@
                       <v-text-field
                         label="Número de su tarjeta"
                         color="black"
+                        :rules="reglas.numeros"
                         v-model="campos_pago.numero_tarjeta"
                       ></v-text-field>
                     </v-col>
@@ -71,13 +81,19 @@
                       <v-text-field
                         label="Fecha de vencimiento"
                         color="black"
+                        :rules="reglas.fecha"
                         v-model="campos_pago.fecha_vencimiento_tarjeta"
                       ></v-text-field>
                     </v-col>
                   </v-row>
                   <v-row>
                     <v-col cols="12" sm="12" md="6" class="d-flex">
-                      <v-text-field label="CCV" color="black" v-model="campos_pago.ccv"></v-text-field>
+                      <v-text-field
+                        label="CCV"
+                        color="black"
+                        v-model="campos_pago.ccv"
+                        :rules="reglas.numeros"
+                      ></v-text-field>
                       <v-icon color="blue">mdi-help-circle mdi-blue</v-icon>
                     </v-col>
                   </v-row>
@@ -109,18 +125,29 @@ export default {
   props: ["dialog_pago", "data_alquiler", "titulo"],
   data() {
     return {
+      reglas: {
+        numeros: [
+          (v) => !!v || "Campo requerido",
+          (v) => /^[0-9]+$/i.test(v) || "No se permiten letras",
+        ],
+        fecha: [
+          (v) => !!v || "Campo requerido",
+          (v) =>
+            /^[0-9-]+$/i.test(v) || "Ha ingresado caracteres no permitidos",
+        ],
+      },
       dialog_persistent: true,
       campos_pago: {
         total: 0,
-        numero_tarjeta: "",
-        fecha_vencimiento_tarjeta: "",
+        numero_tarjeta: "2134 2133 2333 4839",
+        fecha_vencimiento_tarjeta: "2020-12-12",
         subtotal: 0,
         igv: 0.18,
         anio_tarjeta: "",
-        ccv: "",
+        ccv: "589",
         documento: "",
         tipo_documento: "",
-        fecha_vencimiento: "",
+        fecha_vencimiento: "2020-12-12",
         detalle_pago: {
           total: 0,
           subtotal: 0,
@@ -135,12 +162,12 @@ export default {
   mounted() {
     let vue = this;
 
-    vue.campos_pago.total = vue.$store.state.auth.user.id_plan == 1 ? 80 : 120;
+    vue.campos_pago.total = vue.$store.state.auth.user.id_plan == 1 ? 30 : 45;
     vue.campos_pago.subtotal = parseFloat(vue.campos_pago.total * 0.82).toFixed(
       2
     );
-    vue.campos_pago.documento = "F-000" + Math.floor(Math.random() * 100);
-    vue.campos_pago.tipo_documento = "FACTURA";
+    vue.campos_pago.documento = "B-000" + Math.floor(Math.random() * 100);
+    vue.campos_pago.tipo_documento = "BOLETA";
     vue.campos_pago.detalle_pago.total = vue.campos_pago.total;
     vue.campos_pago.detalle_pago.subtotal = vue.campos_pago.subtotal;
     vue.campos_pago.detalle_pago.descripcion = "Pago de membresía del mes";
@@ -199,6 +226,8 @@ export default {
     },
     alquilarContenido() {
       let vue = this;
+      let validar = vue.$refs.form.validate();
+
       let data = {
         pago: {
           id_cliente: vue.$store.state.auth.user.id_cliente,
@@ -223,26 +252,36 @@ export default {
           ],
         },
       };
+      if (validar) {
+        vue.axios
+          .post("http://localhost:49220/api/publicacion/insertarpago", data)
+          .then((response) => {
+            vue.campos_pago.fecha_vencimiento = "";
+            vue.campos_pago.fecha_vencimiento_tarjeta = "";
+            vue.campos_pago.numero_tarjeta = "";
+            vue.campos_pago.ccv = "";
 
-      vue.axios
-        .post("http://localhost:49220/api/publicacion/insertarpago", data)
-        .then((response) => {
-          vue.campos_pago.fecha_vencimiento = "";
-          vue.campos_pago.fecha_vencimiento_tarjeta = "";
-          vue.campos_pago.numero_tarjeta = "";
-          vue.campos_pago.ccv = "";
-
-          vue.swal(
-            `Acaba de realizar el pago del mes`,
-            "success",
-            2500,
-            "top",
-            "animate__animated animate__fadeInDown",
-            "animate__animated animate__fadeOut"
-          );
-        })
-        .catch((error) => {});
-      vue.cerrar_modal();
+            vue.swal(
+              `Acaba de realizar el pago del mes`,
+              "success",
+              2500,
+              "top",
+              "animate__animated animate__fadeInDown",
+              "animate__animated animate__fadeOut"
+            );
+          })
+          .catch((error) => {});
+        vue.cerrar_modal();
+      } else {
+        vue.swal(
+          `Verifique los campos`,
+          "error",
+          2500,
+          "top",
+          "animate__animated animate__fadeInDown",
+          "animate__animated animate__fadeOut"
+        );
+      }
     },
   },
 };

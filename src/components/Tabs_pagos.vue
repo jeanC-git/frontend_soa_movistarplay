@@ -144,7 +144,6 @@ export default {
             vue.$store.state.auth.user.id_cliente
         )
         .then((response) => {
-          console.log(response.data);
           vue.arrayPagos.servicios = response.data;
         });
     },
@@ -156,7 +155,6 @@ export default {
             vue.$store.state.auth.user.id_cliente
         )
         .then((response) => {
-          console.log(response.data);
           vue.arrayPagos.alquileres = response.data;
         });
     },

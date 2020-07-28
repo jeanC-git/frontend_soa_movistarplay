@@ -447,6 +447,7 @@ export default {
       let vue = this;
       let validar = vue.$refs.formSubirContenido.validate();
       let data = null;
+      // ARMAMOS JSON DE TV O CANAL EN VIVO
       if (
         vue.nuevoContenido.tipo_contenido == 2 ||
         vue.nuevoContenido.tipo_contenido == 3
@@ -457,6 +458,7 @@ export default {
           duracion: vue.nuevoContenido.duracion,
           url: vue.nuevoContenido.link_tipo_contenido,
         };
+        // ARMAMOS JSON DE SERIES
       } else {
         vue.nuevoContenido.tipo_contenido = 1;
         data = {
@@ -469,6 +471,7 @@ export default {
       if (validar) {
         vue.axios
           .post("http://localhost:49220/api/publicacion/insertarcontenido", {
+            // ESTRUCUTRA DEL JSON QUE SE ENVIA A LA API
             contenido: {
               id_tipo_contenido: vue.nuevoContenido.tipo_contenido,
               id_administrador: 1,
@@ -510,6 +513,7 @@ export default {
       vue.axios
         .get("http://localhost:49220/api/Consumo/ListarCategorias")
         .then((response) => {
+          //LISTADO DE CATEGORIAS EN EL FORMULARIO
           vue.arrayCategorias = response.data;
         });
     },
@@ -521,7 +525,6 @@ export default {
         nombre: "Temporada " + count_1,
         num_capitulos: vue.nuevoContenido.capitulos,
         fecha_estreno: vue.nuevoContenido.fecha_estreno,
-
         capitulo: [],
       };
       vue.nuevoContenido.arrayTemporada.push(nueva_temporada);
